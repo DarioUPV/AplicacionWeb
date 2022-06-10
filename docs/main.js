@@ -108,20 +108,20 @@ function actualizacionAutomaticaDatos() {
 
   db.ref('sensores/temperatura').on('value', (instantanea) => {
     const temp = instantanea.val();
-    actualizarMedidaDePlanta("#temp", temp.valor);
+    actualizarMedidaDePlanta("#temp", +(temp.valor).toFixed(2));
     actualizarMedidaDePlanta("#unidades_temperatura", temp.unidades)
   })
 
   db.ref('sensores/presion').on('value', (instantanea) => {
     const press = instantanea.val();
-    actualizarMedidaDePlanta("#press", press.valor);
+    actualizarMedidaDePlanta("#press", +(press.valor).toFixed(2));
     actualizarMedidaDePlanta("#unidades_presion", press.unidades)
 
   })
 
   db.ref('sensores/humedad').on('value', (instantanea) => {
     const humed = instantanea.val();
-    actualizarMedidaDePlanta("#hum", humed.valor);
+    actualizarMedidaDePlanta("#hum", +(humed.valor).toFixed(2));
     actualizarMedidaDePlanta("#unidades_humedad_relativa", humed.unidades)
 
   })

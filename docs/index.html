@@ -66,7 +66,7 @@
       <label for="customRange1" class="form-label">Control 1</label>
       <input type="range" class="form-range" id="regulador1" onchange="regulador(this);" min="0" max="100">
       <label for="customRange2" class="form-label">Control 2</label>
-      <input type="range" class="form-range" id="regulador2" onchange="regulador(this);" min="-90" max="90">
+      <input type="range" class="form-range" id="regulador2" onchange="regulador(this);" min="0" max="100">
 
 
     </div>
@@ -147,15 +147,22 @@
 <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database-compat.js"></script>
 
 <script>
-  
+  //   const firebaseConfig = {
+  //   apiKey: "AIzaSyAQtXPuJ5n3Nb6i5Q69dmguXI68AsLEFrc",
+  //   authDomain: "telenube-590a3.firebaseapp.com",
+  //   projectId: "telenube-590a3",
+  //   storageBucket: "telenube-590a3.appspot.com",
+  //   messagingSenderId: "803027418821",
+  //   appId: "1:803027418821:web:26cea228aab1c0b50fbaac"
+  // };
   const firebaseConfig = {
-  apiKey: " AIzaSyBXrfGQtK6YQZ5hivip1jCiSsF8nqWz1Hw ",
-  authDomain: "tele1-977c2.firebaseapp.com",
-  databaseURL: "https://tele1-977c2-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "tele1-977c2",
-  storageBucket: "tele1-977c2.appspot.com",
-  messagingSenderId: "1086367011073",
-  appId: "1:1086367011073:web:85c749e53e08874c9fcb00"
+  apiKey: "AIzaSyAQtXPuJ5n3Nb6i5Q69dmguXI68AsLEFrc",
+  authDomain: "telenube-590a3.firebaseapp.com",
+  databaseURL: "https://telenube-590a3-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "telenube-590a3",
+  storageBucket: "telenube-590a3.appspot.com",
+  messagingSenderId: "803027418821",
+  appId: "1:803027418821:web:26cea228aab1c0b50fbaac"
 };
 
 
