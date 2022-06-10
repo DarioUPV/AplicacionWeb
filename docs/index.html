@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeleCloud</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+  
+
+  <!-- Navegacion -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Telecontrol y Telemetría en la nube</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign in</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="logout">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+<!-- CONTENIDO PRINCIPAL -->
+
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <ul class="list-group posts">
+        <li class="list-group-item">
+          <h3> Presión: <span id="press">?</span> <span id="unidades_presion">mm Hg</span>
+          </h3>
+        </li>
+        <li class="list-group-item">
+          <h3> Temperatura: <span id="temp">?</span> <span id="unidades_temperatura">ºC</span>
+          </h3>
+        </li>
+        <li class="list-group-item">
+          <h3> Humedad relativa: <span id="hum">?</span> <span id="unidades_humedad_relativa">%</span>
+          </h3>
+        </li>
+      </ul>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="actuador1"  onclick="actuacion(this);">
+        <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 1</label>
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="actuador2"  onclick="actuacion(this);">
+        <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 2</label>
+      </div>
+
+      <label for="customRange1" class="form-label">Control 1</label>
+      <input type="range" class="form-range" id="regulador1" onchange="regulador(this);" min="0" max="100">
+      <label for="customRange2" class="form-label">Control 2</label>
+      <input type="range" class="form-range" id="regulador2" onchange="regulador(this);" min="-90" max="90">
+
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Sign-up -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="signup-form">
+          <div class="form-group">
+            <input type="text" id="signup-email" class="form-control" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="signup-password" class="form-control" placeholder="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Log-in (o sign-in)-->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Entrar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="login-form">
+          <div class="form-group">
+            <input type="text" id="login-email" class="form-control" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <input type="password" id="login-password" class="form-control" placeholder="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Scripts de Bootstrap -->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
+
+
+<!-- Scripts de Firebase -->
+
+
+ <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+ 
+
+
+
+ <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database-compat.js"></script>
+
+<script>
+  
+  const firebaseConfig = {
+  apiKey: " AIzaSyBXrfGQtK6YQZ5hivip1jCiSsF8nqWz1Hw ",
+  authDomain: "tele1-977c2.firebaseapp.com",
+  databaseURL: "https://tele1-977c2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "tele1-977c2",
+  storageBucket: "tele1-977c2.appspot.com",
+  messagingSenderId: "1086367011073",
+  appId: "1:1086367011073:web:85c749e53e08874c9fcb00"
+};
+
+
+
+  
+   const firebaseApp = firebase.initializeApp( firebaseConfig );
+   const fs = firebaseApp.firestore();
+   const db = firebaseApp.database();
+   const auth = firebaseApp.auth();
+</script>
+
+ 
+
+
+
+
+
+
+<!-- Código propio -->
+
+<script src="main.js"></script>
+
+
+</body>
+</html>
