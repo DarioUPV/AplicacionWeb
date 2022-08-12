@@ -5,10 +5,46 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TeleCloud</title>
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <!-- Plotly -->
+  <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+  <!-- Mis estilos -->
+  <link href="estilos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 <body>
   
+
+  <!-- Horas selccionables -->
+  <datalist id="lista_horas">
+    <option value="00:00"></option>
+    <option value="01:00"></option>
+    <option value="02:00"></option>
+    <option value="03:00"></option>
+    <option value="04:00"></option>
+    <option value="05:00"></option>
+    <option value="06:00"></option>
+    <option value="07:00"></option>
+    <option value="08:00"></option>
+    <option value="09:00"></option>
+    <option value="10:00"></option>
+    <option value="11:00"></option>
+    <option value="12:00"></option>
+    <option value="13:00"></option>
+    <option value="14:00"></option>
+    <option value="15:00"></option>
+    <option value="16:00"></option>
+    <option value="17:00"></option>
+    <option value="18:00"></option>
+    <option value="19:00"></option>
+    <option value="20:00"></option>
+    <option value="21:00"></option>
+    <option value="22:00"></option>
+    <option value="23:00"></option>
+</datalist>
+
+
 
   <!-- Navegacion -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,15 +55,26 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign in</a>
+
+          <li class="nav-item" id="usuario_entrada">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Entrar</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a>
+
+          <li class="nav-item" id="usuario_registro">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Registro</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="logout">Log out</a>
+
+
+          <li class="nav-item oculto" id="usuario_nombre" >
+            <a class="nav-link" href="#" >Usuario: <span id="usuarioEmail"></span></a>
           </li>
+
+          <li class="nav-item" id="usuario_salir">
+            <a class="nav-link" href="#" id="logout">Salir</a>
+          </li>
+
+
+
         </ul>
       </div>
     </div>
@@ -37,41 +84,119 @@
 
 <!-- CONTENIDO PRINCIPAL -->
 
-<div class="container p-4">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <ul class="list-group posts">
-        <li class="list-group-item">
-          <h3> Presión: <span id="press">?</span> <span id="unidades_presion">mm Hg</span>
-          </h3>
-        </li>
-        <li class="list-group-item">
-          <h3> Temperatura: <span id="temp">?</span> <span id="unidades_temperatura">ºC</span>
-          </h3>
-        </li>
-        <li class="list-group-item">
-          <h3> Humedad relativa: <span id="hum">?</span> <span id="unidades_humedad_relativa">%</span>
-          </h3>
-        </li>
-      </ul>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="actuador1"  onclick="actuacion(this);">
-        <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 1</label>
-      </div>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="actuador2"  onclick="actuacion(this);">
-        <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 2</label>
-      </div>
-
-      <label for="customRange1" class="form-label">Control 1</label>
-      <input type="range" class="form-range" id="regulador1" onchange="regulador(this);" min="0" max="100">
-      <label for="customRange2" class="form-label">Control 2</label>
-      <input type="range" class="form-range" id="regulador2" onchange="regulador(this);" min="0" max="100">
+<div id="principal" class="desaparecido">
 
 
+  <div class="flex-container" >
+    <div id='divReloj_temperatura' ></div>
+    <div id='divGrafica_temperatura' ></div>
+    <div id='divGrafica_temperatura_historico' class ="oculto"></div>
+
+    <div id='selector_temperatura'>
+
+        <input type="radio" id="temperatura_actual" name="sel_temperatura" value="actual" checked>
+        <label for="temperatura_actual">Actual</label>
+        <br>
+
+        <input type="radio" id="temperatura_historico" name="sel_temperatura" value="historico">
+        <label for="temperatura_historico">Histórico</label>
+        <br>  
+
+        <form id="temperatura_dia_hora" class="form-actual-historico" >
+
+            <input type="date" id="dia_temperatura" name="dia" disabled required><br>
+
+            <div class="flex-container">
+              <input type="time" id="hora_temperatura" name="hora" list="lista_horas" disabled required> &nbsp;
+              <button type="submit" id="boton_nube_temperatura" disabled>
+                <span class="material-symbols-outlined icono cloud">cloud_download</span>
+              </button>
+              &nbsp;
+              <span class="icono csv deshabilitado" id="punto_coma_decimal_csv_temperatura">,00</span>
+              &nbsp;
+              <span class="material-symbols-outlined icono csv deshabilitado" id="descargar_csv_temperatura">file_download</span>
+            </div>
+
+        </form>    
+    </div>
+
+  </div>
+
+  <hr>
+
+
+  <div class="flex-container" > 
+
+    <div id='divReloj_humedad' ></div>
+    <div id='divGrafica_humedad' ></div>
+    <div id='divGrafica_humedad_historico' class ="oculto"></div>
+
+    <div id='selector_humedad'>
+
+        <input type="radio" id="humedad_actual" name="sel_humedad" value="actual" checked>
+        <label for="humedad_actual">Actual</label>
+        <br>
+
+        <input type="radio" id="humedad_historico" name="sel_humedad" value="historico">
+        <label for="humedad_historico">Histórico</label>
+        <br>
+
+        <form id="humedad_dia_hora" class="form-actual-historico" >
+
+            <input type="date" id="dia_humedad" name="dia" disabled required><br>
+
+            <div class="flex-container">
+              <input type="time" id="hora_humedad" name="humedad" list="lista_horas" disabled required> &nbsp;
+              <button type="submit" id="boton_nube_humedad" disabled>
+                <span class="material-symbols-outlined icono cloud">cloud_download</span>
+              </button>
+              &nbsp;
+              <span class="icono csv deshabilitado" id="punto_coma_decimal_csv_humedad">,00</span>
+              &nbsp;
+              <span class="material-symbols-outlined icono csv deshabilitado" id="descargar_csv_humedad">file_download</span>
+            </div>
+        </form>    
     </div>
   </div>
+
+<hr>
+
+  <br>
+
+  <div class="flex-container-controles" id="controles">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="actuador1"  onclick="actuacion(this);">
+      <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 1</label>
+    </div>
+    
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="actuador2"  onclick="actuacion(this);">
+      <label class="form-check-label" for="flexSwitchCheckChecked">Actuador 2</label>
+    </div>
+  </div>
+
+<br>
+
+  <div class="contenedor_grid" id="reg1">
+    <div></div> <span id="val_regulador_1"></span>
+    <label for="customRange1" class="form-label">Regulador 1</label>
+    <input type="range" class="form-range  regulador" id="regulador1" onchange="regulador(this);" min="0" max="100">
+  </div>
+
+<br>
+
+  <div class="contenedor_grid" id="reg2">
+    <div></div> <span id="val_regulador_2"></span>
+    <label for="customRange2" class="form-label">Regulador 2</label>
+    <input type="range" class="form-range regulador " id="regulador2" onchange="regulador(this);" min="0" max="100">
+    
+  </div>
+<br>
+
+<hr>
+
 </div>
+
 
 
 <!-- Modal Sign-up -->
@@ -79,18 +204,18 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="signup-form">
-          <div class="form-group">
+          <div class="form-group cajetin">
             <input type="text" id="signup-email" class="form-control" placeholder="Email" required>
-          </div>
-          <div class="form-group">
+          </div> 
+          <div class="form-group cajetin">
             <input type="password" id="signup-password" class="form-control" placeholder="password" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Registrarse</button>
+          </div> 
+          <button type="submit" class="btn btn-primary">Registro</button>
         </form>
       </div>
     </div>
@@ -110,9 +235,9 @@
         <form id="login-form">
           <div class="form-group">
             <input type="text" id="login-email" class="form-control" placeholder="Email" required>
-          </div>
-          <div class="form-group">
-            <input type="password" id="login-password" class="form-control" placeholder="password" required>
+          </div><br>
+          <div class= "form-group">
+            <input type="password" id="login-password" class="form-control" placeholder="password" required><br>
           </div>
           <button type="submit" class="btn btn-primary">Entrar</button>
         </form>
@@ -123,60 +248,67 @@
 
 
 
+<div class="centrar">
+  <img src="logoETSII.png" class="logofondo">
+</div>
+
+
+<details class="abajo" class="detalles">
+  <summary>Créditos</summary> 
+  Darío Martínez Martínez <br>
+  Trabajo Fin de Grado: <i>"Telemetría y telecontrol en la nube"</i><br> 
+  Septiembre 2022<br>
+  Director: Dr. Alberto José Pérez Jiménez (DISCA)<br>
+  <img src="logoETSII.png" width="200px">
+</details>
+
+<script src="relojes_graficas.js"></script>
+
+<script src='controlPagina.js'></script>
+
+ 
 
 
 <!-- Scripts de Bootstrap -->
 
-
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 
 
 
 <!-- Scripts de Firebase -->
-
-
- <!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
- 
-
-
-
- <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app-compat.js"></script>
+<!-- Insert this script at the bottom of the HTML, but before you use any Firebase services -->
+<script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.8.2/firebase-database-compat.js"></script>
 
+
 <script>
 
   const firebaseConfig = {
-  apiKey: "AIzaSyBXrfGQtK6YQZ5hivip1jCiSsF8nqWz1Hw",
-  authDomain: "tele1-977c2.firebaseapp.com",
-  databaseURL: "https://tele1-977c2-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "tele1-977c2",
-  storageBucket: "tele1-977c2.appspot.com",
-  messagingSenderId: "1086367011073",
-  appId: "1:1086367011073:web:85c749e53e08874c9fcb00"
-};
+    apiKey: "AIzaSyAQtXPuJ5n3Nb6i5Q69dmguXI68AsLEFrc",
+    authDomain: "telenube-590a3.firebaseapp.com",
+    databaseURL: "https://telenube-590a3-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "telenube-590a3",
+    storageBucket: "telenube-590a3.appspot.com",
+    messagingSenderId: "803027418821",
+    appId: "1:803027418821:web:26cea228aab1c0b50fbaac"
+  };
 
+  const firebaseApp = firebase.initializeApp( firebaseConfig );
+  //const fs = firebaseApp.firestore();
+  const db = firebaseApp.database();
+  const auth = firebaseApp.auth();
 
-
-  
-   const firebaseApp = firebase.initializeApp( firebaseConfig );
-   const fs = firebaseApp.firestore();
-   const db = firebaseApp.database();
-   const auth = firebaseApp.auth();
 </script>
 
  
 
 
-
-
-
-
 <!-- Código propio -->
 
-<script src="main.js"></script>
+<script src="comunicacionFB.js"></script>
 
 
 </body>

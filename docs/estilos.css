@@ -1,0 +1,117 @@
+/* margin de body */
+body{
+    margin: 10px;
+}
+
+/* summary */
+.detalles{
+    background-color: white;
+    z-index: 10;
+}
+
+/* logo fondo central de la página web */
+.logofondo{
+    width: 80vw;
+    opacity: 0.05;
+}
+
+/* contenedor grid para reguladores */
+.contenedor_grid{
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-template-rows: repeat(2,auto);
+  grid-row-gap: .1rem;
+  grid-column-gap: 1rem;
+  justify-items: center;
+  justify-content: center;
+}
+
+/* centrado horizontal y vertical: para logo semitransparente ETSII */
+.centrar{
+    margin: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: -10;
+}
+
+
+
+
+/* Ubicación de créditos */
+.abajo{
+    position: sticky;
+    bottom: 10px;
+    left: 10px
+}
+
+/* oculto mientras no se autentique como usuario */
+.desaparecido {
+    visibility: hidden;
+}
+
+.oculto {
+    display:none;
+}
+
+/* No operativo: traslúcido */
+.deshabilitado {
+    opacity: 0.3;
+}
+
+/* Características geométricas para el botón de descarga de nube */
+form.form-actual-historico button[type=submit] {
+    border: 0px;
+    background-color: white;
+    padding-top: 5px;
+}
+
+/* Margen inferior para cajetines de email y contraseña*/
+div.cajetin {
+    padding-bottom: 8px;
+}
+
+/* Características geométricas para el botón de descarga */
+.icono.csv {
+    padding-bottom: 3px;
+}
+
+
+/* cursor de tipo puntero para iconos (descarga de nube y descarga) */
+.icono{
+    cursor: pointer;
+}
+
+/* contenedor de tipo flex para organización de elementos */
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+}
+
+/* contenedor de tipo flex para los controles on-off de actuadores */
+.flex-container-controles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: stretch;
+    gap: 20px;
+}
+
+/* características geométricas de los reguladores */
+.regulador{
+    width: 250px;
+    gap: 20px;
+}
+
+#usuarioEmail {
+    color: white;
+}
+
